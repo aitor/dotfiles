@@ -1,0 +1,26 @@
+[user]
+	name = Aitor García
+	email = aitor.garcia@gmail.com
+[color]
+  status = auto
+  branch = auto
+  interactive = auto
+  diff = auto
+	sh = auto
+[color "diff"]
+	new = cyan
+	old = magenta
+	frag = yellow
+	meta = green
+	commit = normal
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+	sh = !git-sh
+[github]
+	user = aitor
+[core]
+  pager = less -FRSX
+  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
