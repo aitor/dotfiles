@@ -1,0 +1,9 @@
+export DOTFILES="$HOME/.dotfiles"
+export PROJECTS="~/Dropbox/code"
+
+for config_file ($DOTFILES/**/*.sh) source $config_file
+
+# use .localrc for settings specific to one system
+if [ -f ~/.localrc ]; then
+  source ~/.localrc
+fi
