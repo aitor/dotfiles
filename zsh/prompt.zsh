@@ -1,3 +1,4 @@
+autoload colors && colors
 # cheers, @ehrenmurdick
 # http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 
@@ -20,7 +21,7 @@ git_dirty() {
   fi
 }
 
-function git_prompt_info{
+git_prompt_info () {
  ref=$(/usr/bin/git symbolic-ref HEAD 2>/dev/null) || return
 # echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
  echo "${ref#refs/heads/}"
@@ -39,10 +40,10 @@ need_push () {
   fi
 }
 
-rvm_prompt(){
-  if $(which rvm &> /dev/null)
+rbenv_prompt(){
+  if $(which rbenv &> /dev/null)
   then
-	  echo "%{$fg_bold[yellow]%}$(rvm tools identifier)%{$reset_color%}"
+	  echo "%{$fg_bold[yellow]%}ruby $(rbenv version-name)%{$reset_color%}"
 	else
 	  echo ""
   fi
@@ -68,10 +69,10 @@ todo(){
 }
 
 directory_name(){
-  echo "%{$fg_bold[cyan]%}%1/%\/%{$reset_color%}"
+  echo "%{$fg_bold[cyan]%}%~%\/%{$reset_color%}"
 }
 
-export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+export PROMPT=$'\n[%m] $(rbenv_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
 set_prompt () {
   export RPROMPT="%{$fg_bold[grey]%}$(todo)%{$reset_color%}"
 }

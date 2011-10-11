@@ -1,7 +1,7 @@
 # => Initially copied from https://github.com/holman/dotfiles/blob/master/Rakefile
 require 'rake'
 
-desc "Install dotfiles in this machine."
+desc "Hook our dotfiles into system-standard positions."
 task :install do
   linkables = Dir.glob('*/**{.symlink}')
 

@@ -1,12 +1,21 @@
 #!/bin/bash
-# Example ~/.gitshrc file.
+
+# list remotes with repo URLs
+rv () {
+    local line
+    git remote -v | grep push | sed 's/(.*$//' |
+    while read line;
+    do
+        printf "%-15s %s\n" $line
+    done
+}
 
 # git commit
-gitalias commit='git commit --verbose'
-gitalias amend='git commit --verbose --amend'
 gitalias ci='git commit --verbose'
 gitalias ca='git commit --verbose --all'
-gitalias  n='git commit --verbose --amend'
+gitalias cn='git commit --verbose --amend'
+
+# git push
 gitalias puku='git push && git push heroku'
 gitalias puca='git push && cap production deploy'
 
@@ -30,8 +39,7 @@ gitalias dt='git difftool'
 gitalias p='git diff --cached'   # mnemonic: "patch"
 
 # git status
-alias    s='git status'
-gitalias ss='git status -s'
+gitalias ss='git status -sb'
 
 # git log
 gitalias  L='git log'

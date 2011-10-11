@@ -1,0 +1,1 @@
+alias gish="git sh"
