@@ -4,8 +4,6 @@ eval "$(rbenv init -)"
 export DOTFILES="$HOME/.dotfiles"
 export PROJECTS="~/Dropbox/code"
 
-#for config_file ($DOTFILES/**/*.sh) 
-
 for config_file in $DOTFILES/**/*.sh
 do
    source $config_file
