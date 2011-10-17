@@ -1,75 +1,31 @@
-require 'hirb'
-Hirb.enable
-
-ActiveRecord::Base.logger     = Logger.new STDOUT
-ActiveRecord::Base.clear_reloadable_connections!
-ActionController::Base.logger = Logger.new STDOUT
-
-include Rails.application.routes.url_helpers
-default_url_options[:host] = Rails.application.class.parent_name.downcase
-
-app_name = Rails.application.class.parent_name.downcase
-app_env  = Rails.env[0...3]
-IRB.conf[:PROMPT] ||= {}
-IRB.conf[:PROMPT][:RAILS] = {
-  :PROMPT_I => "#{ app_name }(#{ app_env })> ",
-  :PROMPT_N => "#{ app_name }(#{ app_env })| ",
-  :PROMPT_C => "#{ app_name }(#{ app_env })| ",
-  :PROMPT_S => "#{ app_name }(#{ app_env })%l ",
-  :RETURN => "=> %s\n",
-  :AUTO_INDENT => true,
-}
-IRB.conf[:PROMPT_MODE] = :RAILS
-
-
-
-
-# hirb view for a route
-class Hirb::Helpers::Route < Hirb::Helpers::AutoTable
-  def self.render(output, options = {})
-    super( output.requirements.map{ |k,v|
-      [k, v.inspect]
-    }, options.merge({
-      :headers     => [output.name || '', "#{ output.verb || 'ANY' } #{ output.path }"],
-      :unicode     => true,
-      :description => nil,
-    }) )
-  end
-end
-Hirb.add_view ActionDispatch::Routing::Route, :class => Hirb::Helpers::Route
-
-# short and long route list
-def routes(long_output = false)
-  if long_output
-    Rails.application.routes.routes.each{ |e|
-      puts Hirb::Helpers::Route.render(e)
-    }
-    true
-  else
-    Hirb::Console.render_output Rails.application.routes.routes.map{|e|
-      [e.name || '', e.verb || 'ANY', e.path]
-    },{
-      :class   => Hirb::Helpers::AutoTable,
-      :headers => %w<name verb path>,
-    }
-  end
+begin
+  require 'hirb' 
+  Hirb.enable :pager=>false
+rescue LoadError
+  # sudo gem install cldwalker-hirb --source http://gems.github.com
+  puts "Error loading hirb. Please 'sudo gen install hirb' "
 end
 
-# get a specific route via index or name
-def route(index_or_name)
-  route = case index_or_name
-  when Integer
-    Rails.application.routes.routes[ index_or_name ]
-  when Symbol # named route
-    Rails.application.routes.named_routes.get index_or_name
-  end
+def change_log(stream)
+  ActiveRecord::Base.logger = Logger.new(stream)
+  ActiveRecord::Base.clear_active_connections!
 end
 
-# access to routeset for easy recognize / generate
-def r 
-  ActionController::Routing::Routes
+def show_log
+  change_log(STDOUT)
 end
 
+def hide_log
+  change_log(nil)
+end
+
+def me
+  User.find_by_email('aitor.garcia@gmail.com')
+end
+
+def r
+  reload!
+end
 
 module DatabaseHelpers
   extend self
@@ -101,7 +57,13 @@ module DatabaseHelpers
     }
     true
   end
-
-  # ...
 end
 def db; DatabaseHelpers; end
+
+if defined?(Rails::Console) 
+  load File.dirname(__FILE__) + '/.rails3rc'
+else
+  load File.dirname(__FILE__) + '/.rails2rc'
+end
+
+set_prompt

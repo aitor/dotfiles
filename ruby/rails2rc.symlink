@@ -1,0 +1,19 @@
+# access to routeset for easy recognize / generate
+def r 
+  ActionController::Routing::Routes
+end
+
+def set_prompt
+  app_name = Dir.pwd.split('/').last
+  app_env  = ENV['RAILS_ENV'][0...3]
+  IRB.conf[:PROMPT] ||= {}
+  IRB.conf[:PROMPT][:RAILS] = {
+    :PROMPT_I => "#{ app_name }(#{ app_env })> ",
+    :PROMPT_N => "#{ app_name }(#{ app_env })| ",
+    :PROMPT_C => "#{ app_name }(#{ app_env })| ",
+    :PROMPT_S => "#{ app_name }(#{ app_env })%l ",
+    :RETURN => "=> %s\n",
+    :AUTO_INDENT => true,
+  }
+  IRB.conf[:PROMPT_MODE] = :RAILS
+end
