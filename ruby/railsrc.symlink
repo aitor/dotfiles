@@ -6,9 +6,13 @@ rescue LoadError
   puts "Error loading hirb. Please 'sudo gen install hirb' "
 end
 
+def clear
+  system 'clear'
+end
+
 def change_log(stream)
   ActiveRecord::Base.logger = Logger.new(stream)
-  ActiveRecord::Base.clear_active_connections!
+  ActiveRecord::Base.clear_reloadable_connections!
 end
 
 def show_log
