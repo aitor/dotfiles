@@ -1,0 +1,107 @@
+require 'hirb'
+Hirb.enable
+
+ActiveRecord::Base.logger     = Logger.new STDOUT
+ActiveRecord::Base.clear_reloadable_connections!
+ActionController::Base.logger = Logger.new STDOUT
+
+include Rails.application.routes.url_helpers
+default_url_options[:host] = Rails.application.class.parent_name.downcase
+
+app_name = Rails.application.class.parent_name.downcase
+app_env  = Rails.env[0...3]
+IRB.conf[:PROMPT] ||= {}
+IRB.conf[:PROMPT][:RAILS] = {
+  :PROMPT_I => "#{ app_name }(#{ app_env })> ",
+  :PROMPT_N => "#{ app_name }(#{ app_env })| ",
+  :PROMPT_C => "#{ app_name }(#{ app_env })| ",
+  :PROMPT_S => "#{ app_name }(#{ app_env })%l ",
+  :RETURN => "=> %s\n",
+  :AUTO_INDENT => true,
+}
+IRB.conf[:PROMPT_MODE] = :RAILS
+
+
+
+
+# hirb view for a route
+class Hirb::Helpers::Route < Hirb::Helpers::AutoTable
+  def self.render(output, options = {})
+    super( output.requirements.map{ |k,v|
+      [k, v.inspect]
+    }, options.merge({
+      :headers     => [output.name || '', "#{ output.verb || 'ANY' } #{ output.path }"],
+      :unicode     => true,
+      :description => nil,
+    }) )
+  end
+end
+Hirb.add_view ActionDispatch::Routing::Route, :class => Hirb::Helpers::Route
+
+# short and long route list
+def routes(long_output = false)
+  if long_output
+    Rails.application.routes.routes.each{ |e|
+      puts Hirb::Helpers::Route.render(e)
+    }
+    true
+  else
+    Hirb::Console.render_output Rails.application.routes.routes.map{|e|
+      [e.name || '', e.verb || 'ANY', e.path]
+    },{
+      :class   => Hirb::Helpers::AutoTable,
+      :headers => %w<name verb path>,
+    }
+  end
+end
+
+# get a specific route via index or name
+def route(index_or_name)
+  route = case index_or_name
+  when Integer
+    Rails.application.routes.routes[ index_or_name ]
+  when Symbol # named route
+    Rails.application.routes.named_routes.get index_or_name
+  end
+end
+
+# access to routeset for easy recognize / generate
+def r 
+  ActionController::Routing::Routes
+end
+
+
+module DatabaseHelpers
+  extend self
+
+  def tables
+    Hirb::Console.render_output ActiveRecord::Base.connection.tables.map{|e|[e]},{
+      :class   => Hirb::Helpers::AutoTable,
+      :headers => %w<tables>,
+    }
+    true
+  end
+
+  def table(which)
+    Hirb::Console.render_output ActiveRecord::Base.connection.columns(which).map{ |e|
+      [e.name, e.type, e.sql_type, e.limit, e.default, e.scale, e.precision, e.primary, e.null]
+    },{
+      :class   => Hirb::Helpers::AutoTable,
+      :headers => %w<name type sql_type limit default scale precision primary null>,
+    }
+    true
+  end
+
+  def counts
+    Hirb::Console.render_output ActiveRecord::Base.connection.tables.map{|e|
+      [e, ActiveRecord::Base.connection.select_value("SELECT COUNT(*) FROM #{e}")]
+    },{
+      :class   => Hirb::Helpers::AutoTable,
+      :headers => %w<table count>,
+    }
+    true
+  end
+
+  # ...
+end
+def db; DatabaseHelpers; end
