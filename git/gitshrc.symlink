@@ -6,7 +6,7 @@ rv () {
     git remote -v | grep push | sed 's/(.*$//' |
     while read line;
     do
-        printf "%-15s %s\n" $line
+        printf "%-15s => %s\n" $line
     done
 }
 
