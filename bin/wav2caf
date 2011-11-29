@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Converts all the *.wav files in the current directory to optimized
+# *.caf files usable in iOS apps and sampled at 22kHz.
+#
+# Example:
+#
+#   wav2caf
+
+for i in *.wav; do
+  afconvert -f caff -d LEI16@22050 "$i"
+done 
