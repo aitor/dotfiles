@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'date'
+
+registration_date = Date.civil(2005,4,1)
+this_week = Date.today
+
+# Get the start of the week for each of those dates
+if registration_date.wday == 0
+  # wday of 0 is Sunday, and we want our weeks to start on Monday
+  registration_date = registration_date - 6
+else
+  registration_date = registration_date - (registration_date.wday - 1)
+end
+
+if this_week.wday == 0
+  this_week = this_week - 6
+else
+  this_week = this_week - (this_week.wday - 1)
+end
+
+puts "This is week #"+(((this_week - registration_date)/7)+1).to_s
+
+
+# for rails version 
+# registration_date.advance(:weeks => 1)
