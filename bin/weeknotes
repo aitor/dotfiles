@@ -19,7 +19,9 @@ else
   this_week = this_week - (this_week.wday - 1)
 end
 
-puts "This is week #"+(((this_week - registration_date)/7)+1).to_s
+weeknote = ((this_week - registration_date)/7)+1
+
+puts "This is week ##{weeknote}"
 
 
 # for rails version 
