@@ -22,7 +22,7 @@ excludeInFolderSearch = "{$excludeInFolderSearch,$myExtraExcludes}"
 
 
 # Default editing configuration
-#
+showInvisibles   = true
 softWrap         = false
 softTabs         = true
 tabSize          = 2
@@ -31,9 +31,10 @@ showWrapColumn   = true
 
 
 # File type specific configuration
-#
 [ text ]
-showInvisibles   = true
+spellChecking    = true
+spellingLanguage = 'en'
+softWrap         = false
 
 [ .git/COMMIT_EDITMSG ]
 spellChecking    = true
@@ -43,14 +44,10 @@ spellingLanguage = 'en'
 binary           = true
 
 [ source ]
-softTabs         = true
-tabSize          = 2
+softWrap         = false
 
 [ source.python ]
-softTabs         = true
 tabSize          = 4
 
-[ "{README,INSTALL,LICENSE,TODO}" ]
+[ {README} ]
 fileType         = "text.plain"
-spellChecking    = true
-spellingLanguage = 'en'
