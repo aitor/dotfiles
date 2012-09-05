@@ -1,6 +1,6 @@
 # Because you know, db:pull is fucking slow...
 function backup:pull () {
-  name=$(heroku info --raw | grep "^name=" | cut -d= -f2)
+  name=$(heroku info --shell | grep "^name=" | cut -d= -f2)
   echo "Loading '$name' app's data in local database."
 
   heroku pgbackups:capture --expire
