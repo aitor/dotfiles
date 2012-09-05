@@ -4,6 +4,10 @@ else
   export PS1='%3~$(git_info_for_prompt)%# '
 fi
 
+export PS1="\[\033[G\]$PS1" #glue the bash prompt always go to the first column
+#http://jonisalonen.com/2012/your-bash-prompt-needs-this/
+
+
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
