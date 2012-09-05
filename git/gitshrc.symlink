@@ -38,13 +38,19 @@ gitalias d='git diff'
 gitalias dt='git difftool'
 gitalias p='git diff --cached'   # mnemonic: "patch"
 
+# git branch
+gitalias br='git branch -D'              # local deletion
+gitalias rbr='git push origin --delete'  # remote deletion
+
+
 # git status
 gitalias ss='git status -sb'
 
 # git log
 gitalias  L='git log'
-gitalias  l='git log --pretty=oneline --abbrev-commit'
-gitalias ll='git log --pretty=oneline --abbrev-commit --max-count=15'
+
+gitalias  l="git log --pretty=oneline --abbrev-commit --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset'"
+gitalias ll="git log --pretty=oneline --abbrev-commit --max-count=15 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset'"
 
 # experimental
 gitalias mirror='git reset --hard'
