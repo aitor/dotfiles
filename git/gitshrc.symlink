@@ -20,7 +20,7 @@ gitalias puku='git push && git push heroku'
 gitalias puca='git push && cap production deploy'
 
 # git add
-gitalias  a='git add'
+gitalias  a='git add' 
 gitalias aa='git add --update'
 gitalias ap='git add --patch'
 
