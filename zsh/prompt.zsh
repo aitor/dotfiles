@@ -1,4 +1,4 @@
-autoload colors && colors
+autoload -U colors && colors
 # cheers, @ehrenmurdick
 # http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 
@@ -43,7 +43,7 @@ need_push () {
 rbenv_prompt(){
   if $(which rbenv &> /dev/null)
   then
-	  echo "%{$fg_bold[yellow]%}ruby $(rbenv version-name)%{$reset_color%}"
+	  echo "Ruby $(rbenv version-name)"
 	else
 	  echo ""
   fi
@@ -69,15 +69,16 @@ todo(){
 }
 
 directory_name(){
-  echo "%{$fg_bold[cyan]%}%~%\/%{$reset_color%}"
+  echo "%{$fg_bold[green]%}%~%\/%{$reset_color%}"
 }
 
-export PROMPT=$'\n[%m] $(rbenv_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
 set_prompt () {
   export RPROMPT="%{$fg_bold[cyan]%}$(todo)%{$reset_color%}"
 }
 
+export PROMPT=$'\n%{$fg[cyan]%}[$(rbenv_prompt)][%m @ %D{%L:%M:%S}]%{$reset_color%} $(directory_name) $(git_dirty)$(need_push)\n❯ '
+
 precmd() {
   title "zsh" "%m" "%55<...<%~"
-  set_prompt
+  #set_prompt
 }
