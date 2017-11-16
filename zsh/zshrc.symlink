@@ -1,6 +1,18 @@
+# As per https://apple.stackexchange.com/questions/254468/macos-sierra-doesn-t-seem-to-remember-ssh-keys-between-reboots
+ssh-add -A 2>/dev/null;
+
 # Eval rbenv stuff on init
-export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
 eval "$(rbenv init -)"
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+# Android Env
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/tools"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
+
+# Fastlane
+export PATH="$HOME/.fastlane/bin:$PATH"
 
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
@@ -8,7 +20,7 @@ export ZSH=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Dropbox/code
 
-export EDITOR="subl -w"
+export EDITOR="subl"
 
 # source every .zsh file in this rep
 for config_file ($ZSH/**/*.zsh) source $config_file
