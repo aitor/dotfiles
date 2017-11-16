@@ -1,5 +1,5 @@
 begin
-  require 'hirb' 
+  require 'hirb'
   Hirb.enable :pager=>false
 rescue LoadError
   # sudo gem install cldwalker-hirb --source http://gems.github.com
@@ -24,7 +24,9 @@ def hide_log
 end
 
 def me
-  User.find_by_email('aitor.garcia@gmail.com')
+  User.find_by_email("hello@aitor.is") ||
+    User.find_by_email("aitor@linkingpaths.com") ||
+    User.find_by_email("aitor.garcia@gmail.com")
 end
 
 def r
@@ -64,7 +66,7 @@ module DatabaseHelpers
 end
 def db; DatabaseHelpers; end
 
-if defined?(Rails::Console) 
+if defined?(Rails::Console)
   load File.dirname(__FILE__) + '/.rails3rc'
 else
   load File.dirname(__FILE__) + '/.rails2rc'
