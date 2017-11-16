@@ -11,6 +11,11 @@ export PS1="\[\033[G\]$PS1" #glue the bash prompt always go to the first column
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
+# Mostly for Python 
+# http://stackoverflow.com/questions/19961239/pelican-3-3-pelican-quickstart-error-valueerror-unknown-locale-utf-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 fpath=($ZSH/zsh/functions $fpath)
 
 autoload -U $ZSH/zsh/functions/*(:t)
