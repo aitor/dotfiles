@@ -1,28 +1,14 @@
 [user]
-	name = Aitor García Rey
-	email = aitor@linkingpaths.com
+  name = Aitor García Rey
+  email = aitor@linkingpaths.com
 [alias]
-    cb           = !git-cut-branch
-    sh           = !git-sh
-    grab         = !git-grab
-    thanks       = !git-thanks
-    track        = !git-track
-    ll           = log --pretty=oneline --abbrev-commit --max-count=15
-    wip          = !git add -u && git commit -m ...
-    wipc         = !date >> WIP && git add WIP && git commit -m ...
-    fp           = format-patch --stdout
-    ci           = commit
-    x            = checkout HEAD
-    bv           = !git branch --color -v | cut -c1-100
-    incoming     = !git-incoming
-    in           = !git-incoming
-    outgoing     = !git-outgoing
-    out          = !git-outgoing
-    s            = status -sb -uno --ignore-submodules=untracked
-    st           = status
-    sa           = status -sb --ignore-submodules=untracked
-    dsf = "!f() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | diff-so-fancy | less --tabs=4 -RFX; }; f"
+  a = add
+  ci = commit
+  st = status
+  ss = status -sb --ignore-submodules=untracked
+  d = diff
+  dsf = diff
 [core]
-  pager = less -FRSX
+  pager = diff-so-fancy | less --tabs=4 -RFX
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
   editor = $EDITOR --wait
